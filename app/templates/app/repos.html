@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h2>{{name}}'s Repositories List </h2>
+{% for rep in repos %}
+    <a href="/app/{{rep.name}}/details/">{{rep.full_name}}</a> <br>
+{% endfor %}
+</body>
+</html>
