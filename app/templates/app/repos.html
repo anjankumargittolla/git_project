@@ -7,7 +7,9 @@
 <body>
 <h2>{{name}}'s Repositories List </h2>
 {% for rep in repos %}
-    <a href="/app/{{rep.name}}/details/">{{rep.full_name}}</a> <br>
+    <a href="/app/{{rep.name}}/details/" target="_blank">{{rep.full_name}}</a> <br>
 {% endfor %}
+<br>
+<a href="/app/logout/">logout</a>
 </body>
 </html>

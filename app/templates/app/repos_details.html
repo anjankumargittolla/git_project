@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<p style="text-align: right"><a href="/app/{{repo.name}}/create_branch/">create branch</a></p>
+<select name="branch" id="branch">
+    {% for branch in branches%}
+  <option value="{{branch}}">branch</option>
+    {% endfor %}
+</select>
+<br>
+ {% for file in files%}
+    {{file}}<br>
+    {% endfor %}
+</body>
+</html>
