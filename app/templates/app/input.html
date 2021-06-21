@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Branches</title>
+</head>
+<body>
+{{msg}}<br>
+<form action="/app/{{name}}/create_branch/" method="post" enctype="multipart/form-data">
+  {% csrf_token %}
+  New Branch : <input type="text" name="branch"><br>
+  file : <input type="text" name="file"><br>
+  commit : <input type="text" name="commit"><br>
+  update :<input type="text" name="update"><br>
+  <input type="submit">
+</form>
+<form>
+ <input type="button" value="Go back!" onclick="history.back()">
+</form>
+</body>
+</html>

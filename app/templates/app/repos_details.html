@@ -5,15 +5,18 @@
     <title>Title</title>
 </head>
 <body>
-<p style="text-align: right"><a href="/app/{{repo.name}}/create_branch/">create branch</a></p>
+<p style="text-align: right"><a href="/app/{{repo.name}}/data/">create branch</a></p>
 <select name="branch" id="branch">
-    {% for branch in branches%}
-  <option value="{{branch}}">branch</option>
+    {% for branch in branches %}
+  <option value="{{branch}}">{{branch.name}}</option>
     {% endfor %}
 </select>
 <br>
  {% for file in files%}
-    {{file}}<br>
+    {{file.name}}<br>
     {% endfor %}
+<form>
+ <input type="button" value="Go back!" onclick="history.back()">
+</form>
 </body>
 </html>
