@@ -9,9 +9,6 @@
 <form action="/app/{{name}}/create_branch/" method="post" enctype="multipart/form-data">
   {% csrf_token %}
   New Branch : <input type="text" name="branch"><br>
-  file : <input type="text" name="file"><br>
-  commit : <input type="text" name="commit"><br>
-  update :<input type="text" name="update"><br>
   <input type="submit">
 </form>
 <form>

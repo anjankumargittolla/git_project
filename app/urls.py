@@ -14,5 +14,6 @@ urlpatterns = [
     path("<name>/details/", views.rep_details, name="rep_details"),
     path("<name>/data/", views.data, name="data"),
     path("<name>/create_branch/", views.branch, name="branch"),
+    path("<name>/file/", views.file, name="file"),
     path("logout/", views.remove, name="logout"),
 ]

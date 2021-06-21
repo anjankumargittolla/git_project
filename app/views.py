@@ -83,10 +83,13 @@ def branch(request, name):
         repo = open_git.get_user().get_repo(repo_name)
         sb = repo.get_branch(source_branch)
         repo.create_git_ref(ref='refs/anjankumargittolla/{}'.format(target_branch) + target_branch, sha=sb.commit.sha)
-        new_file = request.POST["file"]
-        if new_file:
-            repo.create_file(new_file, "message", "content", branch=sb)
         return render(request, "app/input.html", {"name": name, "msg": "Branch added successully"})
     else:
         return render(request, "app/input.html", {"name": name})
 
+
+def file(request, name):
+    """For creating a file in repository"""
+    repo = open_git.get_user().get_repo(name)
+    repo.create_file("new.txt", "test", "test", branch="master")
+    return HttpResponse("file uploaded successfully")

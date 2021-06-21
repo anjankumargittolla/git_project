@@ -15,6 +15,7 @@
  {% for file in files%}
     {{file.name}}<br>
     {% endfor %}
+    <br><a href="/app/{{repo.name}}/file/">create file</a>
 <form>
  <input type="button" value="Go back!" onclick="history.back()">
 </form>
