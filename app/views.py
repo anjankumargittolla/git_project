@@ -19,6 +19,8 @@ def home(request):
 
 open_git = ""
 username = ""
+files = ""
+my_branches = ""
 
 
 def token_login(request):
@@ -48,14 +50,19 @@ def remove(request):
 
 def rep_details(request, name):
     """This is for repository contents"""
-    # import pdb
-    # pdb.set_trace()
     print(username, "=========\n", name)
     print(type(open_git))
     my_repo = open_git.get_repo("{}/{}".format(username, name))
+    global my_branches
     my_branches = list(my_repo.get_branches())
     print(my_branches)
-    contents = my_repo.get_contents("", ref="master")
+    if request.method == "POST":
+        # import pdb
+        # pdb.set_trace()
+        contents = my_repo.get_contents("", ref=request.POST["branch"])
+    else:
+        contents = my_repo.get_contents("", ref="master")
+    global files
     files = []
     while contents:
         file_content = contents.pop(0)
@@ -69,7 +76,8 @@ def rep_details(request, name):
 
 def data(request, name):
     """View for give branch name and uploading a file """
-    return render(request, "app/input.html", {"name": name})
+    my_repo = open_git.get_repo("{}/{}".format(username, name))
+    return render(request, "app/input.html", {"name": name, "branches": my_branches})
 
 
 def branch(request, name):
@@ -78,18 +86,29 @@ def branch(request, name):
         import pdb
         pdb.set_trace()
         repo_name = name
-        source_branch = 'master'
-        target_branch = request.POST["branch"]
+        source_branch = request.POST["branch"]
+        target_branch = request.POST["new_branch"]
         repo = open_git.get_user().get_repo(repo_name)
-        sb = repo.get_branch(source_branch)
-        repo.create_git_ref(ref='refs/anjankumargittolla/{}'.format(target_branch) + target_branch, sha=sb.commit.sha)
-        return render(request, "app/input.html", {"name": name, "msg": "Branch added successully"})
+        new_commit = repo.get_branch(source_branch)
+        repo.create_git_ref(ref='refs/heads/{}'.format(target_branch) + target_branch, sha=new_commit.commit.sha)
+        return render(request, "app/repos_details.html", {"name": name, "repo": repo, "branches":my_branches,
+                                                          "files": files})
     else:
         return render(request, "app/input.html", {"name": name})
 
 
+def file_details(request, name):
+    """Give file name from html"""
+    return render(request, "app/file.html", {"name": name, "branches":my_branches})
+
+
 def file(request, name):
     """For creating a file in repository"""
-    repo = open_git.get_user().get_repo(name)
-    repo.create_file("new.txt", "test", "test", branch="master")
-    return HttpResponse("file uploaded successfully")
+    if request.method == "POST":
+        repo = open_git.get_user().get_repo(name)
+        repo.create_file(request.POST["file"], request.POST["msg"], request.POST["commit"],
+                         branch=request.POST["branch"])
+        return HttpResponse("file uploaded successfully")
+    else:
+        return render(request, "app/file.html", {"name": name, "branches": my_branches})
+

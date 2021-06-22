@@ -8,7 +8,12 @@
 {{msg}}<br>
 <form action="/app/{{name}}/create_branch/" method="post" enctype="multipart/form-data">
   {% csrf_token %}
-  New Branch : <input type="text" name="branch"><br>
+  Source Branch: <select name="branch" id="branch">
+    {% for branch in branches %}
+  <option value="{{branch.name}}">{{branch.name}}</option>
+    {% endfor %}
+  </select><br>
+  New Branch : <input type="text" name="new_branch"><br>
   <input type="submit">
 </form>
 <form>
