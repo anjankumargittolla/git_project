@@ -20,7 +20,8 @@ Banches :<select name="branch" id="branch">
  {% for file in files%}
     {{file.name}}<br>
     {% endfor %}
-    <br><a href="/app/{{repo.name}}/file/">create file</a>
+    <br><a href="/app/{{repo.name}}/upload/">create file</a>
+    <br><a href="/app/{{repo.name}}/create_pr/">create PR</a>
 <form>
  <input type="button" value="Go back!" onclick="history.back()">
 </form>

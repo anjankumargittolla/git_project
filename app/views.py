@@ -76,7 +76,7 @@ def rep_details(request, name):
 
 def data(request, name):
     """View for give branch name and uploading a file """
-    my_repo = open_git.get_repo("{}/{}".format(username, name))
+    # my_repo = open_git.get_repo("{}/{}".format(username, name))
     return render(request, "app/input.html", {"name": name, "branches": my_branches})
 
 
@@ -90,7 +90,7 @@ def branch(request, name):
         target_branch = request.POST["new_branch"]
         repo = open_git.get_user().get_repo(repo_name)
         new_commit = repo.get_branch(source_branch)
-        repo.create_git_ref(ref='refs/heads/{}'.format(target_branch) + target_branch, sha=new_commit.commit.sha)
+        repo.create_git_ref(ref='refs/heads/{}'.format(target_branch), sha=new_commit.commit.sha)
         return render(request, "app/repos_details.html", {"name": name, "repo": repo, "branches":my_branches,
                                                           "files": files})
     else:
@@ -104,11 +104,31 @@ def file_details(request, name):
 
 def file(request, name):
     """For creating a file in repository"""
+    import pdb
+    pdb.set_trace()
     if request.method == "POST":
         repo = open_git.get_user().get_repo(name)
-        repo.create_file(request.POST["file"], request.POST["msg"], request.POST["commit"],
+        repo.create_file(request.FILES["file"], request.POST["msg"], request.POST["commit"],
                          branch=request.POST["branch"])
         return HttpResponse("file uploaded successfully")
     else:
         return render(request, "app/file.html", {"name": name, "branches": my_branches})
 
+
+def pull(request, name):
+    """View for giving inputs to create a pull request"""
+    return render(request, "app/pull.html", {"name": name, "branches": my_branches})
+
+
+def pull_request(request, name):
+    repo = open_git.get_user().get_repo(name)
+    if request.method == "POST":
+        title = request.POST["title"]
+        body = request.POST["body"]
+        head = request.POST["head"]
+        base = request.POST["base"]
+        new_pr = repo.create_pull(title=title, body=body, head=head, base=base)
+        print(new_pr)
+        return HttpResponse("success")
+    else:
+        return render(request, "app/pull.html", {"name": name, "branches": my_branches})

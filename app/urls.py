@@ -15,5 +15,8 @@ urlpatterns = [
     path("<name>/data/", views.data, name="data"),
     path("<name>/create_branch/", views.branch, name="branch"),
     path("<name>/file/", views.file, name="file"),
+    path("<name>/upload/", views.file_details, name="file_details"),
+    path("<name>/create_pr/", views.pull, name="pull"),
+    path("<name>/submit_pr/", views.pull_request,name="pull_request"),
     path("logout/", views.remove, name="logout"),
 ]
