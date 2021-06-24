@@ -20,8 +20,13 @@ Banches :<select name="branch" id="branch">
  {% for file in files%}
     {{file.name}}<br>
     {% endfor %}
+<br>
+    {% for pull in pulls %}
+        {{pull}}<br>
+    {% endfor %}
     <br><a href="/app/{{repo.name}}/upload/">create file</a>
     <br><a href="/app/{{repo.name}}/create_pr/">create PR</a>
+    <br><a href="/app/{{repo.name}}/merge_inputs/">merge</a>
 <form>
  <input type="button" value="Go back!" onclick="history.back()">
 </form>

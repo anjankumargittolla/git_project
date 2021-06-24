@@ -30,7 +30,7 @@
 # print(complex(a))
 # num = 12345
 # new = 0
-# while num >0:
+# while num > 0:
 #     n1 = num % 10
 #     new = new*10 + n1
 #     num = num//10
@@ -78,3 +78,31 @@
 # print(type(j))
 # print(j,k)
 
+# a = 1234
+# b = 1234
+# print(id(a) == id(b))
+# print(id(a), id(b))
+# a = 1234
+# print(a is b)
+
+# data = [
+#     {"a": 1, "b": 2, "c": 3}, {"a": 1, "b": 2, "c": 0}, {"a": 2, "b": 3, "c": 4}, {"a": 1, "b": 2, "c": 10},
+#     {"a": 4, "b": 2, "c": 11}, {"a": 1, "b": 2, "c": 12}, {"a": 1, "b": 2, "c": 22}, {"a": 1, "b": 2, "c": 32},
+#     {"a": 4, "b": 2, "c": 44}, {"a": 2, "b": 3, "c": 55}
+# ]
+#
+# di = {}
+# for i in data:
+#     key = (i['a'], i['b'])
+#     if key in di:
+#         di[key].append(i['c'])
+#     else:
+#         di[key] = [i['c']]
+#         print(di)
+#
+# final_li = []
+# for k, v in di.items():
+#     temp_di = {'a': k[0], 'b': k[1], 'c': v}
+#     final_li.append(temp_di)
+#
+# print(final_li)

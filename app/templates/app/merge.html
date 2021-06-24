@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Merge inputs</title>
+</head>
+<body>
+<form action="/app/{{name}}/merge/" method="post" enctype="multipart/form-data>">
+  {% csrf_token %}
+     base: <select name="base" id="base">
+    {% for branch in branches %}
+  <option value="{{branch.name}}">{{branch.name}}</option>
+    {% endfor %}
+  </select><br>
+  target : <select name="head" id="head"><br>
+    {% for branch in branches %}
+  <option value="{{branch.name}}">{{branch.name}}</option>
+    {% endfor %}
+  </select><br>
+<input type="submit" name="merge">
+</form>
+</body>
+</html>

@@ -6,7 +6,7 @@ from django.shortcuts import render
 from github import Github
 
 """To access the all the github methods"""
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponseRedirect
 
 
 # Create your views here.
@@ -21,6 +21,7 @@ open_git = ""
 username = ""
 files = ""
 my_branches = ""
+pulls = ""
 
 
 def token_login(request):
@@ -55,13 +56,15 @@ def rep_details(request, name):
     my_repo = open_git.get_repo("{}/{}".format(username, name))
     global my_branches
     my_branches = list(my_repo.get_branches())
-    print(my_branches)
+    global pulls
     if request.method == "POST":
         # import pdb
         # pdb.set_trace()
         contents = my_repo.get_contents("", ref=request.POST["branch"])
+        pulls = my_repo.get_pulls(state='open', sort='created', base=request.POST["branch"])
     else:
         contents = my_repo.get_contents("", ref="master")
+        pulls = my_repo.get_pulls(state='open', sort='created', base="master")
     global files
     files = []
     while contents:
@@ -71,7 +74,8 @@ def rep_details(request, name):
         else:
             files.append(file_content)
     print(contents)
-    return render(request, "app/repos_details.html", {"branches": my_branches, "files": files, "repo": my_repo})
+    return render(request, "app/repos_details.html",
+                  {"branches": my_branches, "files": files, "repo": my_repo, "pulls": pulls})
 
 
 def data(request, name):
@@ -91,15 +95,15 @@ def branch(request, name):
         repo = open_git.get_user().get_repo(repo_name)
         new_commit = repo.get_branch(source_branch)
         repo.create_git_ref(ref='refs/heads/{}'.format(target_branch), sha=new_commit.commit.sha)
-        return render(request, "app/repos_details.html", {"name": name, "repo": repo, "branches":my_branches,
-                                                          "files": files})
+        return render(request, "app/repos_details.html", {"name": name, "repo": repo, "branches": my_branches,
+                                                          "files": files, "pulls": pulls})
     else:
         return render(request, "app/input.html", {"name": name})
 
 
 def file_details(request, name):
     """Give file name from html"""
-    return render(request, "app/file.html", {"name": name, "branches":my_branches})
+    return render(request, "app/file.html", {"name": name, "branches": my_branches})
 
 
 def file(request, name):
@@ -108,9 +112,10 @@ def file(request, name):
     pdb.set_trace()
     if request.method == "POST":
         repo = open_git.get_user().get_repo(name)
-        repo.create_file(request.FILES["file"], request.POST["msg"], request.POST["commit"],
-                         branch=request.POST["branch"])
-        return HttpResponse("file uploaded successfully")
+        file_name = request.FILES["file"]
+        content = file_name.read()
+        repo.create_file(file_name.name, request.POST["msg"], content, branch=request.POST["branch"])
+        return render(request, "app/repos_details.html", {"branches": my_branches, "files": files, "repo": repo})
     else:
         return render(request, "app/file.html", {"name": name, "branches": my_branches})
 
@@ -129,6 +134,27 @@ def pull_request(request, name):
         base = request.POST["base"]
         new_pr = repo.create_pull(title=title, body=body, head=head, base=base)
         print(new_pr)
-        return HttpResponse("success")
+        return render(request, "app/repos_details.html", {"branches": my_branches, "files": files,
+                                                          "repo": repo, "pulls": pulls})
     else:
         return render(request, "app/pull.html", {"name": name, "branches": my_branches})
+
+
+def merge_input(request, name):
+    """To give the those two branches which has to be merged"""
+    return render(request, "app/merge.html", {"branches": my_branches, "name": name})
+
+
+def merge(request, name):
+    """To merge the branches"""
+    my_repo = open_git.get_repo("{}/{}".format(username, name))
+    if request.method == "POST":
+        try:
+            base = my_repo.get_branch(request.POST["base"])
+            head = my_repo.get_branch(request.POST["head"])
+            merge_to_master = my_repo.merge(base, head.commit.sha, "merge to {}".format(base))
+        except Exception as ex:
+            print(ex)
+        return render(request, "app/repos_details.html", {"branches": my_branches, "files": files, "repo": my_repo})
+    else:
+        return render(request, "app/merge.html", {"branches": my_branches, "name": name})
