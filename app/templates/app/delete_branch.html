@@ -2,19 +2,17 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Add Branches</title>
+    <title>Title</title>
 </head>
 <body>
-{{msg}}<br>
-<form action="/app/{{name}}/create_branch/" method="post" enctype="multipart/form-data">
-  {% csrf_token %}
-  Source Branch: <select name="source" id="source">
+<form action="/app/{{name}}/delete/" method="post">
+    {% csrf_token %}
+    delete branch : <select name="source" id="source"><br>
     {% for branch in branches %}
   <option value="{{branch.name}}">{{branch.name}}</option>
     {% endfor %}
   </select><br>
-  New Branch : <input type="text" name="new_branch"><br>
-  <input type="submit">
+<input type="submit" name="delete">
 </form>
 <form>
  <input type="button" value="Go back!" onclick="history.back()">

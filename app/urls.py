@@ -21,4 +21,6 @@ urlpatterns = [
     path("logout/", views.remove, name="logout"),
     path("<name>/merge_inputs/", views.merge_input, name="merge_input"),
     path("<name>/merge/", views.merge, name="merge"),
+    path("<name>/delete_branch/", views.delete_branch, name="delete_branch"),
+    path("<name>/delete/", views.delete, name="delete"),
 ]

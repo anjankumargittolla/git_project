@@ -7,7 +7,7 @@
 <body>
 <form action="/app/{{name}}/file/" method="post" enctype="multipart/form-data">
     {% csrf_token %}
-    Banches :<select name="branch" id="branch">
+    Banches :<select name="source" id="source">
     {% for branch in branches %}
   <option value="{{branch.name}}">{{branch.name}}</option>
     {% endfor %}

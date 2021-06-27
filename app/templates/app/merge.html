@@ -7,17 +7,20 @@
 <body>
 <form action="/app/{{name}}/merge/" method="post" enctype="multipart/form-data>">
   {% csrf_token %}
-     base: <select name="base" id="base">
+     target: <select name="target" id="target">
     {% for branch in branches %}
   <option value="{{branch.name}}">{{branch.name}}</option>
     {% endfor %}
   </select><br>
-  target : <select name="head" id="head"><br>
+  source : <select name="source" id="source"><br>
     {% for branch in branches %}
   <option value="{{branch.name}}">{{branch.name}}</option>
     {% endfor %}
   </select><br>
 <input type="submit" name="merge">
+</form>
+<form>
+ <input type="button" value="Go back!" onclick="history.back()">
 </form>
 </body>
 </html>

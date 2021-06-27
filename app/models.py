@@ -106,3 +106,71 @@
 #     final_li.append(temp_di)
 #
 # print(final_li)
+# a = 12345
+# b = 12345
+# print(id(a) == id(b))
+# print(id(a), id(b))
+# src = r.get_git_ref("heads/source branch name")
+# src.delete()
+# d = [{"name": "sai", "age": 24, "course": "python"},
+#       {"name": "anjan", "age": 25, "course": "django"},
+#       {"name": "kumar", "age": 23, "course": "c+"}]
+#
+# a = sorted(d, key=lambda i: i["age"])
+# print(a,"before operator")
+#
+# import operator
+# d.sort(key=operator.itemgetter("course"))
+# print(d,"========================")
+# def fun(data):
+#     if data[0] == data[1] and data[1]==data[2] :
+#         return 0
+#     elif data[0] == data[1] and data[0]!=data[2]:
+#         return data[2]
+#     elif data[0] == data[2] and data[0]!=data[1]:
+#         return data[1]
+#     elif data[1] == data[2] and data[0] != data[1]:
+#         return data[0]
+#     else:
+#         return data[0]+data[1]+data[2]
+#
+# print(fun([3,2,3]))
+
+# def fun(x, y, z):
+#     if x == y and y == z:
+#         return 0
+#     elif x == y and x != z:
+#         return z
+#     elif x == z and x != y:
+#         return y
+#     elif y == z and x != y:
+#         return x
+#     else:
+#         return x + y + z
+# print(fun(3, 2, 3))
+# def sample_fun(data, new_data):
+#     for i in range(len(data)):
+#         for j in range(i,len(data)):
+#             if data[i]*data[j] == new_data:
+#                 return i, j
+#             else:
+#                 continue
+# print(sample_fun([1,2,3,4],12))
+# import pdb;pdb.set_trace()
+# def func1():
+#     try:
+#         return 1
+#     finally:
+#         return 2
+#
+#
+# def func2():
+#     try:
+#         raise ValueError()
+#     except:
+#         return 1
+#     finally:
+#         return 3
+#
+# print(func1())
+# print(func2())
